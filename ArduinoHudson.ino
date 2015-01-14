@@ -107,6 +107,7 @@ void checkResponse(String response) {
         commaIndex = secondCommaIndex;
       
         Serial.println(secondCommaIndex);
+        
         if (color == "red") {
             red = 50;
             green = 0;
@@ -116,15 +117,23 @@ void checkResponse(String response) {
             green = 50;
             blue = 0;
         } else if (color == "disabled") {
-            red = 80;
-            green = 5;
+            red = 0;
+            green = 0;
             blue = 60;
-        } else if (color == "red_anime" || color == "blue_anime") {
-            red = 50;
-            green = 50;
+        } else if (color == "red_anime" || color == "aborted_anime") {
+            red = 100;
+            green = 40;
             blue = 0;
+        } else if (color == "blue_anime") {
+            red = 50;
+            green = 60;
+            blue = 0;
+        } else if (color == "aborted") {
+            red = 50;
+            green = 0;
+            blue = 50;
         }
-        else {
+         else {
             red = 10;
             green = 10;
             blue = 0;
