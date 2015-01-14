@@ -95,21 +95,32 @@ void checkResponse(String response) {
   int green = 0;
   int blue = 0;
   
-  if (response == "red") {
-    Serial.println("red");
-    red = 50;
-    green = 0;
-  } else if (response == "blue") {
-    Serial.println("blue");
-    red = 0;
-    green = 50;
-  }
+  int commaIndex = 0;
+  int secondCommaIndex = 0;
   
-  for(int i=0;i<NUMPIXELS;i++){
-    Serial.println(i);
-    // pixels.Color takes RGB values, from 0,0,0 up to 255,255,255
-    pixels.setPixelColor(i, pixels.Color(red, green, blue)); // Moderately bright green color.
-    pixels.show(); // This sends the updated pixel color to the hardware.
+  for(int i=0; i > NUMPIXELS; i++){
+    secondCommaIndex = response.indexOf(',',i + 1);
+    String color = response.substring(commaIndex, secondCommaIndex);
+    
+    Serial.println(secondCommaIndex);
+    
+    if (color == "red") {
+      red = 50;
+      green = 0;
+      blue = 0;
+    } else if (color == "blue" || color == "blue_anime") {
+      red = 0;
+      green = 50;
+      blue = 0;
+    } else if (color == "disabled") {
+      red = 50;
+      green = 50;
+      blue = 50;
+    }
+    
+    commaIndex = response.indexOf(',',i);
+    pixels.setPixelColor(i, pixels.Color(red, green, blue));
+    pixels.show();
   }
 }
  
