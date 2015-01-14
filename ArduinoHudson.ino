@@ -25,6 +25,7 @@ EthernetClient client;
 char inString[255]; // string for incoming serial data
 int stringPos = 0; // string index counter
 boolean startRead = false; // is reading?
+int delayval = 10000;
 
 void setup(){
   Ethernet.begin(mac, ip);
@@ -36,7 +37,7 @@ void loop(){
   String responseString = connectAndRead(); //connect to the server and read the output
   Serial.println(responseString);
   checkResponse(responseString);
-  delay(10000); //wait 5 seconds before connecting again
+  delay(delayval); //wait 5 seconds before connecting again
 }
 
 String connectAndRead(){
@@ -110,23 +111,28 @@ void checkResponse(String response) {
             red = 50;
             green = 0;
             blue = 0;
-        } else if (color == "blue" || color == "blue_anime") {
+        } else if (color == "blue") {
             red = 0;
             green = 50;
             blue = 0;
         } else if (color == "disabled") {
+            red = 80;
+            green = 5;
+            blue = 60;
+        } else if (color == "red_anime" || color == "blue_anime") {
             red = 50;
             green = 50;
-            blue = 50;
-        } else {
+            blue = 0;
+        }
+        else {
             red = 10;
             green = 10;
             blue = 0;
         }
     } else {
-      red = 10;
-      green = 10;
-      blue = 10;
+      red = 0;
+      green = 0;
+      blue = 0;
     }
     
     
