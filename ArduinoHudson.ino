@@ -22,7 +22,7 @@ IPAddress ip(10,0,51,194);
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 EthernetClient client;
 
-char inString[32]; // string for incoming serial data
+char inString[255]; // string for incoming serial data
 int stringPos = 0; // string index counter
 boolean startRead = false; // is reading?
 
@@ -64,7 +64,7 @@ String readPage(){
   //read the page, and capture & return everything between '<' and '>'
 
   stringPos = 0;
-  memset( &inString, 0, 32 ); //clear inString memory
+  memset( &inString, 0, 255); //clear inString memory
 
   while(true){
 
@@ -95,30 +95,41 @@ void checkResponse(String response) {
   int green = 0;
   int blue = 0;
   
-  int commaIndex = 0;
+  int commaIndex = -1;
   int secondCommaIndex = 0;
   
-  for(int i=0; i > NUMPIXELS; i++){
-    secondCommaIndex = response.indexOf(',',i + 1);
-    String color = response.substring(commaIndex, secondCommaIndex);
-    
-    Serial.println(secondCommaIndex);
-    
-    if (color == "red") {
-      red = 50;
-      green = 0;
-      blue = 0;
-    } else if (color == "blue" || color == "blue_anime") {
-      red = 0;
-      green = 50;
-      blue = 0;
-    } else if (color == "disabled") {
-      red = 50;
-      green = 50;
-      blue = 50;
+  for(int i=0; i < NUMPIXELS; i++){
+    secondCommaIndex = commaIndex + 1;
+    secondCommaIndex = response.indexOf(',',secondCommaIndex);
+    if (secondCommaIndex > 0 ) {
+        String color = response.substring(commaIndex + 1, secondCommaIndex);
+        commaIndex = secondCommaIndex;
+      
+        Serial.println(secondCommaIndex);
+        if (color == "red") {
+            red = 50;
+            green = 0;
+            blue = 0;
+        } else if (color == "blue" || color == "blue_anime") {
+            red = 0;
+            green = 50;
+            blue = 0;
+        } else if (color == "disabled") {
+            red = 50;
+            green = 50;
+            blue = 50;
+        } else {
+            red = 10;
+            green = 10;
+            blue = 0;
+        }
+    } else {
+      red = 10;
+      green = 10;
+      blue = 10;
     }
     
-    commaIndex = response.indexOf(',',i);
+    
     pixels.setPixelColor(i, pixels.Color(red, green, blue));
     pixels.show();
   }
