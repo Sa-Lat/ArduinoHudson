@@ -138,8 +138,10 @@ void checkResponse(String response) {
        uint32_t color = getColorFromString(colorString);
        pixels.setPixelColor(pixelRegister, color);
        pixelRegister ++;
-       pixels.show();
     }
+    
+    pixels.setBrightness(15);
+    pixels.show();
   }
 }
 
@@ -147,17 +149,17 @@ uint32_t getColorFromString(String colorString) {
       uint32_t color; 
       
       if (colorString == "red") {
-          color = pixels.Color(50,0,0);
+          color = pixels.Color(255,0,0);
       } else if (colorString == "blue") {
-          color = pixels.Color(0,50,0);
+          color = pixels.Color(0,255,0);
       } else if (colorString == "disabled") {
-          color = pixels.Color(0,0,50);
+          color = pixels.Color(0,0,255);
       } else if (colorString == "red_anime" || colorString == "aborted_anime") {
-          color = pixels.Color(100,40,0);
+          color = pixels.Color(255,162,0);
       } else if (colorString == "blue_anime") {
-          color = pixels.Color(50,60,0);
+          color = pixels.Color(255,255,0);
       } else if (colorString == "aborted") {
-        color = pixels.Color(50,0,50);
+        color = pixels.Color(0,255,255);
       } else {
           color = pixels.Color(10,10,0);
       }
