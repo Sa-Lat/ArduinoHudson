@@ -12,9 +12,13 @@ byte server[] = { 213,174,47,236 }; //ip Address of the server you will connect 
 String location = "/queo/index.php HTTP/1.0";
 
 // if need to change the MAC address (Very Rare)
-byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0x20, 0x78 };
+
+byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0xD3, 0x5F };
+//byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0x20, 0x78 };
 ////////////////////////////////////////////////////////////////////////
-IPAddress ip(10,0,51,194);
+
+IPAddress ip(10,0,51,193);
+//IPAddress ip(10,0,51,194);
 
 #define PIN            6
 #define NUMPIXELS      40
