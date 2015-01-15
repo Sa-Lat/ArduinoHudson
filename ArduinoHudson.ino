@@ -26,6 +26,7 @@ char inString[255]; // string for incoming serial data
 int stringPos = 0; // string index counter
 boolean startRead = false; // is reading?
 int delayval = 10000;
+String colors[40];
 
 void setup(){
   Ethernet.begin(mac, ip);
@@ -34,10 +35,13 @@ void setup(){
 }
 
 void loop(){
-  String responseString = connectAndRead(); //connect to the server and read the output
-  Serial.println(responseString);
-  checkResponse(responseString);
+  readAndShowHudsonData();
   delay(delayval); //wait 5 seconds before connecting again
+}
+
+void readAndShowHudsonData() {
+  String responseString = connectAndRead(); //connect to the server and read the output
+  checkResponse(responseString);
 }
 
 String connectAndRead(){
@@ -95,58 +99,57 @@ void checkResponse(String response) {
   int red = 0;
   int green = 0;
   int blue = 0;
+  int factor = 1;
+  int pixelRegister = 0;
   
   int commaIndex = -1;
   int secondCommaIndex = 0;
+  int projectCount = 0;
   
-  for(int i=0; i < NUMPIXELS; i++){
+  while(secondCommaIndex >= 0) {
+    projectCount ++;
+    
     secondCommaIndex = commaIndex + 1;
     secondCommaIndex = response.indexOf(',',secondCommaIndex);
-    if (secondCommaIndex > 0 ) {
-        String color = response.substring(commaIndex + 1, secondCommaIndex);
-        commaIndex = secondCommaIndex;
-      
-        Serial.println(secondCommaIndex);
-        
-        if (color == "red") {
-            red = 50;
-            green = 0;
-            blue = 0;
-        } else if (color == "blue") {
-            red = 0;
-            green = 50;
-            blue = 0;
-        } else if (color == "disabled") {
-            red = 0;
-            green = 0;
-            blue = 60;
-        } else if (color == "red_anime" || color == "aborted_anime") {
-            red = 100;
-            green = 40;
-            blue = 0;
-        } else if (color == "blue_anime") {
-            red = 50;
-            green = 60;
-            blue = 0;
-        } else if (color == "aborted") {
-            red = 50;
-            green = 0;
-            blue = 50;
-        }
-         else {
-            red = 10;
-            green = 10;
-            blue = 0;
-        }
-    } else {
-      red = 0;
-      green = 0;
-      blue = 0;
+    String color = response.substring(commaIndex + 1, secondCommaIndex);
+    commaIndex = secondCommaIndex;
+    
+    colors[projectCount - 1] = color;
+  }
+  
+  factor = NUMPIXELS / projectCount;
+  
+  for(int i = 0; i < projectCount; i++) {
+    String colorString = colors[i];
+    for (int j = 0; j <= factor -1; j++) {
+       uint32_t color = getColorFromString(colorString);
+       pixels.setPixelColor(pixelRegister, color);
+       pixelRegister ++;
+       pixels.show();
     }
-    
-    
-    pixels.setPixelColor(i, pixels.Color(red, green, blue));
-    pixels.show();
   }
 }
+
+uint32_t getColorFromString(String colorString) {
+      uint32_t color; 
+      
+      if (colorString == "red") {
+          color = pixels.Color(50,0,0);
+      } else if (colorString == "blue") {
+          color = pixels.Color(0,50,0);
+      } else if (colorString == "disabled") {
+          color = pixels.Color(0,0,50);
+      } else if (colorString == "red_anime" || colorString == "aborted_anime") {
+          color = pixels.Color(100,40,0);
+      } else if (colorString == "blue_anime") {
+          color = pixels.Color(50,60,0);
+      } else if (colorString == "aborted") {
+        color = pixels.Color(50,0,50);
+      } else {
+          color = pixels.Color(10,10,0);
+      }
+      
+      return color;
+}
+
  
