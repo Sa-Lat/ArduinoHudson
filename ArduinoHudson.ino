@@ -100,6 +100,7 @@ void checkResponse(String response) {
   int green = 0;
   int blue = 0;
   int factor = 1;
+  int rest = 0;
   int pixelRegister = 0;
   
   int commaIndex = -1;
@@ -118,10 +119,18 @@ void checkResponse(String response) {
   }
   
   factor = NUMPIXELS / projectCount;
+  rest = NUMPIXELS - projectCount * factor; 
   
   for(int i = 0; i < projectCount; i++) {
     String colorString = colors[i];
-    for (int j = 0; j <= factor -1; j++) {
+    int actualFactor = factor;
+    
+    if (rest > 0) {
+       actualFactor ++;
+       rest --;
+     }
+    
+    for (int j = 0; j <= actualFactor -1; j++) {
        uint32_t color = getColorFromString(colorString);
        pixels.setPixelColor(pixelRegister, color);
        pixelRegister ++;
