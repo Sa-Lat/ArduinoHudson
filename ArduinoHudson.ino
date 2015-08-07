@@ -13,19 +13,19 @@
 
 //Matrix Conf
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(5, 8, PIN, NEO_MATRIX_TOP + NEO_MATRIX_RIGHT + NEO_MATRIX_COLUMNS + NEO_MATRIX_PROGRESSIVE, NEO_GRB + NEO_KHZ800);
-const uint32_t textColor = matrix.Color(255, 0, 0);
+const uint32_t textColor = matrix.Color(150, 0, 0);
 
 //Ethernet Conf
 byte server[] = { 213,174,47,236 };
 String location = "/queo/index.php HTTP/1.0";
 
 //Check MAC on back of Arduino
-byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0xD3, 0x5F };
-//byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0x20, 0x78 };
+byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0xD3, 0x5F };    // 3. OG
+//byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0x20, 0x78 };  // 2. OG
 
 //First IP belongs to first MAC
-IPAddress ip(10,0,51,193);
-//IPAddress ip(10,0,51,194);
+IPAddress ip(10,0,51,193);    // 3. OG
+//IPAddress ip(10,0,51,194);  // 2. OG
 
 EthernetClient client;
 
@@ -92,7 +92,7 @@ int readAndShowData(){
     boolean readRedProjects = false;
     boolean startRead = false;
     
-    memset( &project, 0, 20); //clear project memory
+    memset( &project, 0, 30); //clear project memory
     
     x = matrix.width();
     matrix.fillScreen(0);
@@ -166,7 +166,7 @@ void printFailedProjects() {
           matrix.setCursor(j, 0);
           matrix.print((failedProjects[i]));
           matrix.show();
-          delay(100);
+          delay(75);
       }
     }
   
@@ -222,24 +222,24 @@ uint32_t getColorFromId(char colorId) {
   
       uint32_t color; 
       
-      //red 
+      //red - fail
       if (colorId == '1') {
-          color = matrix.Color(255,0,0);
-      //blue
+          color = matrix.Color(180,0,0);
+      //blue - ok
       } else if (colorId == '2') {
           color = matrix.Color(0,80,0);
       //disabled
       } else if (colorId == '3') {
-          color = matrix.Color(0,0,255);
+          color = matrix.Color(0,0,150);
       //red_anime, aborted_anime
       } else if (colorId == '4' || colorId == '5') {
           color = matrix.Color(255,165,0);
-      //blue_anime
+      //blue_anime - building
       } else if (colorId == '6') {
-          color = matrix.Color(255,255,0);
+          color = matrix.Color(160,160,0);
       //aborted
       } else if (colorId == '7') {
-        color = matrix.Color(0,255,255);
+        color = matrix.Color(0,120,160);
       //else
       } else {
           color = matrix.Color(150,0,150);
@@ -247,6 +247,3 @@ uint32_t getColorFromId(char colorId) {
       
       return color;
 }
-
-
-
