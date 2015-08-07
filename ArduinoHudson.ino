@@ -225,8 +225,8 @@ uint32_t getColorFromId(char colorId) {
       //red - fail
       if (colorId == '1') {
           color = matrix.Color(180,0,0);
-      //blue - ok
-      } else if (colorId == '2') {
+      //blue - ok, blue_anime
+      } else if (colorId == '2' || colorId == '6') {
           color = matrix.Color(0,80,0);
       //disabled
       } else if (colorId == '3') {
@@ -234,13 +234,13 @@ uint32_t getColorFromId(char colorId) {
       //red_anime, aborted_anime
       } else if (colorId == '4' || colorId == '5') {
           color = matrix.Color(255,165,0);
-      //blue_anime - building
-      } else if (colorId == '6') {
-          color = matrix.Color(160,160,0);
       //aborted
       } else if (colorId == '7') {
         color = matrix.Color(0,120,160);
-      //else
+      }
+      //yellow = unstable
+      else if (colorId == '8') {
+        color = matrix.Color(155,155,0);
       } else {
           color = matrix.Color(150,0,150);
       }
