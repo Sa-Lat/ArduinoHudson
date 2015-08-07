@@ -20,12 +20,12 @@ byte server[] = { 213,174,47,236 };
 String location = "/queo/index.php HTTP/1.0";
 
 //Check MAC on back of Arduino
-//byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0xD3, 0x5F };
-byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0x20, 0x78 };
+byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0xD3, 0x5F };
+//byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0x20, 0x78 };
 
 //First IP belongs to first MAC
-//IPAddress ip(10,0,51,193);
-IPAddress ip(10,0,51,194);
+IPAddress ip(10,0,51,193);
+//IPAddress ip(10,0,51,194);
 
 EthernetClient client;
 
@@ -86,7 +86,7 @@ int readAndShowData(){
     
     int projPos = 0;
     int x = 0;
-    char project[20];
+    char project[30];
     projectCount = 0; 
     failedProjectCount = 0;
     boolean readRedProjects = false;
