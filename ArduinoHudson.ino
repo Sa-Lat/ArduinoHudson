@@ -13,19 +13,19 @@
 
 //Matrix Conf
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(5, 8, PIN, NEO_MATRIX_TOP + NEO_MATRIX_RIGHT + NEO_MATRIX_COLUMNS + NEO_MATRIX_PROGRESSIVE, NEO_GRB + NEO_KHZ800);
-const uint32_t textColor = matrix.Color(150, 0, 0);
+const uint32_t textColor = matrix.Color(170, 0, 0);
 
 //Ethernet Conf
 byte server[] = { 213,174,47,236 };
 String location = "/queo/index.php HTTP/1.0";
 
 //Check MAC on back of Arduino
-byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0xD3, 0x5F };    // 3. OG
-//byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0x20, 0x78 };  // 2. OG
+//byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0xD3, 0x5F };    // 3. OG
+byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0x20, 0x78 };  // 2. OG
 
 //First IP belongs to first MAC
-IPAddress ip(10,0,51,193);    // 3. OG
-//IPAddress ip(10,0,51,194);  // 2. OG
+//IPAddress ip(10,0,51,193);    // 3. OG
+IPAddress ip(10,0,51,194);  // 2. OG
 
 EthernetClient client;
 
@@ -75,7 +75,7 @@ void connectAndRead(){
     Serial.println("connection failed");
     matrix.fillScreen(0);
     matrix.setCursor(0, 0);
-    matrix.print(("!"));
+    matrix.print(("?"));
     matrix.show();
   }
 }
@@ -224,13 +224,13 @@ uint32_t getColorFromId(char colorId) {
       
       //red - fail
       if (colorId == '1') {
-          color = matrix.Color(180,0,0);
+          color = textColor;
       //blue - ok, blue_anime
       } else if (colorId == '2' || colorId == '6') {
-          color = matrix.Color(0,80,0);
+          color = matrix.Color(0,100,0);
       //disabled
       } else if (colorId == '3') {
-          color = matrix.Color(0,0,150);
+          color = matrix.Color(170, 170, 170);
       //red_anime, aborted_anime
       } else if (colorId == '4' || colorId == '5') {
           color = matrix.Color(255,165,0);
@@ -240,7 +240,7 @@ uint32_t getColorFromId(char colorId) {
       }
       //yellow = unstable
       else if (colorId == '8') {
-        color = matrix.Color(155,155,0);
+        color = matrix.Color(145,160,0);
       } else {
           color = matrix.Color(150,0,150);
       }
